@@ -1,0 +1,23 @@
+# Secrets & Config
+.env
+*.env
+**/src/main/resources/application.properties
+**/src/main/resources/application.yml
+healthcare-platform/.env
+
+# Python junk
+**/__pycache__/
+**/*.pyc
+**/*.ipynb_checkpoints
+.venv/
+backend/app/__pycache__/
+
+# Java junk
+**/target/
+**/mvnw
+**/mvnw.cmd
+**/.mvn/
+
+# Frontend junk
+**/node_modules/
+**/dist/
