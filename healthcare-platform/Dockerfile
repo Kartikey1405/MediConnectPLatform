@@ -1,35 +1,24 @@
-# ========================
-# Stage 1: Build the JAR
-# ========================
-# We use a Maven image to build the app
+# Stage 1: Build stage
 FROM maven:3.9.6-eclipse-temurin-17 AS build
-
-# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the pom.xml and download dependencies (caches this layer)
+# 1. Copy ONLY the pom.xml first to take advantage of Docker caching
 COPY pom.xml .
-RUN mvn dependency:go-offline
 
-# Copy the source code
+# 2. Try to resolve dependencies. We add -B (Batch mode) to reduce logs 
+# and -DskipTests to ensure we aren't running code yet.
+RUN mvn dependency:go-offline -B
+
+# 3. Now copy the actual source code
 COPY src ./src
 
-# Build the application (skipping tests to speed up deployment)
-RUN mvn clean package -DskipTests
+# 4. Package the application
+RUN mvn package -DskipTests
 
-# ========================
-# Stage 2: Run the App
-# ========================
-# We use a lightweight Java Runtime (JRE) for the final image
-FROM eclipse-temurin:17-jre-jammy
-
+# Stage 2: Runtime stage
+FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 
-# Copy the built JAR file from the 'build' stage
-COPY --from=build /app/target/GitGradeSpring-0.0.1-SNAPSHOT.jar app.jar
-
-# Expose the port Spring Boot runs on
 EXPOSE 8080
-
-# The command to start the app
 ENTRYPOINT ["java", "-jar", "app.jar"]
