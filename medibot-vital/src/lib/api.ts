@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 const api = axios.create({
-  // If we are in production, use the full Render URL. Otherwise, use the local proxy.
+  // FIX: Explicitly append /api so it matches your Spring Boot @RequestMapping paths
   baseURL: import.meta.env.PROD 
-    ? import.meta.env.VITE_API_BASE_URL 
-    : '/api',
+    ? "https://mediconnectbackend-cqu6.onrender.com/api" 
+    : "/api",
 });
 
 // Request Interceptor: Attach JWT to every request
