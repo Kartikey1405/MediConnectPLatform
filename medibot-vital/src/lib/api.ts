@@ -1,7 +1,10 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: '/api', // This maps to the proxy we set in vite.config.ts
+  // If we are in production, use the full Render URL. Otherwise, use the local proxy.
+  baseURL: import.meta.env.PROD 
+    ? import.meta.env.VITE_API_BASE_URL 
+    : '/api',
 });
 
 // Request Interceptor: Attach JWT to every request
