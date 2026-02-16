@@ -1,8 +1,7 @@
 # Secrets & Config
 .env
 *.env
-**/src/main/resources/application.properties
-**/src/main/resources/application.yml
+
 healthcare-platform/.env
 
 # Python junk
