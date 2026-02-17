@@ -1,8 +1,8 @@
 fastapi
-uvicorn[standard]
-scikit-learn
+uvicorn
+pydantic
 pandas
 numpy
 joblib
+scikit-learn==1.6.1
 python-multipart
-
