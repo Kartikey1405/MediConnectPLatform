@@ -162,7 +162,8 @@ import DoctorAppointments from "./pages/doctor/Appointments";
 import DoctorConsultationRoom from "./pages/doctor/ConsultationRoom";
 import AdminLogin from "./pages/admin/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
-
+import DoctorAvailabilitySettings from "./pages/doctor/DoctorAvailabilitySettings";
+import ReportAnalysisPage from "./pages/patient/ReportAnalysisPage";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -189,6 +190,7 @@ const App = () => (
             <Route path="/patient/book" element={<BookAppointment />} />
             {/* UPDATED: Added :bookingId so patients can join specific calls */}
             <Route path="/patient/consultation/:bookingId" element={<VideoConsultation />} />
+            <Route path="/patient/report-analysis" element={<ReportAnalysisPage />} />
           </Route>
 
           {/* 3. DOCTOR PROTECTED ROUTES */}
@@ -197,6 +199,8 @@ const App = () => (
             <Route path="/doctor/appointments" element={<DoctorAppointments />} />
             {/* FIX: Added :bookingId to resolve the 404 error when clicking Start Call */}
             <Route path="/doctor/consultation/:bookingId" element={<DoctorConsultationRoom />} />
+           {/* Doctor availability settings */}
+<Route path="/doctor/availability" element={<DoctorAvailabilitySettings />} />
           </Route>
 
           {/* 4. ADMIN PROTECTED ROUTES */}

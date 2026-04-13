@@ -16,7 +16,7 @@ public class Consultation {
     private UUID id;
 
     @OneToOne
-    @JoinColumn(name = "booking_id", nullable = false)
+    @JoinColumn(name = "booking_id", nullable = false,unique=true)
     private Booking booking;
 
     @Column(columnDefinition = "TEXT")

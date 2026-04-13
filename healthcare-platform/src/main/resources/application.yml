@@ -67,3 +67,9 @@ cloudinary:
   cloud-name: ${CLOUDINARY_CLOUD_NAME}
   api-key: ${CLOUDINARY_API_KEY}
   api-secret: ${CLOUDINARY_API_SECRET}
+
+
+  # Google Maps Configuration
+geoapify:
+  api:
+    key:  ${GEOAPIFY_API_KEY} # Ensure this environment variable is set

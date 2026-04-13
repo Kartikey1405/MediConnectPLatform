@@ -198,4 +198,60 @@ public class GeminiClient {
             return "SERVICE: Internal Medicine | DIAGNOSIS_INFO: General physiological imbalance requiring observation. | GUIDELINES: Monitor vital signs, Maintain standard hygiene, Log symptom frequency | ALERT: Moderate - Consult professional if status persists.";
         }
     }
+    // ADD THIS METHOD ONLY to your existing GeminiClient class.
+// Do NOT touch getClinicalAdvice() or any other existing method.
+
+    /**
+     * NEW METHOD: Analyzes a medical image URL and returns structured clinical summary.
+     * Follows the same pattern as getClinicalAdvice() — strict format, safe fallback.
+     *
+     * @param imageUrl Cloudinary URL of the uploaded medical image
+     * @return Raw structured string in format:
+     *         SERVICE: ... | FINDINGS: ... | CONDITION: ... | GUIDELINES: ... | ALERT: ...
+     */
+    public String getImageAnalysis(String imageUrl) {
+        try {
+            log.info("GeminiClient: Requesting image analysis for URL: {}", imageUrl);
+
+            String systemPrompt =
+                    "You are a clinical imaging analysis assistant. " +
+                            "You analyze medical images for informational purposes only. " +
+                            "You do NOT provide diagnoses. " +
+                            "You generate structured clinical summaries in a strict machine-readable format.";
+
+            String userPrompt =
+                    "Analyze the provided medical image reference.\n\n" +
+                            "This is for informational and educational purposes only.\n\n" +
+                            "Provide a structured clinical summary in EXACTLY this format:\n\n" +
+                            "SERVICE: [Relevant medical specialty] |\n" +
+                            "FINDINGS: [2-3 neutral observations from image] |\n" +
+                            "CONDITION: [Possible interpretation, NOT a diagnosis] |\n" +
+                            "GUIDELINES: [3 simple patient-friendly next steps] |\n" +
+                            "ALERT: [Risk level and when to seek professional care]\n\n" +
+                            "Rules:\n" +
+                            "- Do NOT give definitive diagnosis\n" +
+                            "- Use cautious language like 'may indicate', 'could suggest'\n" +
+                            "- Keep it concise (7-9 lines total)\n" +
+                            "- Do NOT include extra text outside format\n\n" +
+                            "Image URL: " + imageUrl;
+
+            String response = chatClient.prompt()
+                    .system(systemPrompt)
+                    .user(userPrompt)
+                    .call()
+                    .content();
+
+            log.info("GeminiClient: Image analysis response received.");
+            return response;
+
+        } catch (Exception e) {
+            log.error("GeminiClient: Image analysis failed for URL: {}. Error: {}", imageUrl, e.getMessage());
+            // Safe fallback — same philosophy as getClinicalAdvice fallback
+            return "SERVICE: General Medicine | " +
+                    "FINDINGS: Unable to process the image at this time. | " +
+                    "CONDITION: Analysis unavailable — please consult a physician. | " +
+                    "GUIDELINES: 1. Visit a certified medical professional. 2. Bring your original reports. 3. Do not self-diagnose. | " +
+                    "ALERT: LOW — This is a system limitation, not a medical emergency.";
+        }
+    }
 }

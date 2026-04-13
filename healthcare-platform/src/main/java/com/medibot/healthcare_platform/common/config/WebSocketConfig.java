@@ -1,4 +1,4 @@
-package com.medibot.healthcare_platform.config;
+package com.medibot.healthcare_platform.common.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

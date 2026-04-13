@@ -535,11 +535,26 @@ const DoctorDashboard = () => {
         {/* Real Clinical Queue mapped from BookingResponse DTO */}
         <GlassCard className="p-8" delay={0.3}>
           <div className="flex justify-between items-center mb-6">
-            <h3 className="font-display text-lg font-bold text-foreground flex items-center gap-2">
-              <Clock size={18} className="text-accent" /> Clinical Queue
-            </h3>
-            <button onClick={() => navigate("/doctor/appointments")} className="text-xs font-bold text-accent hover:underline">View Full Schedule</button>
-          </div>
+  <h3 className="font-display text-lg font-bold text-foreground flex items-center gap-2">
+    <Clock size={18} className="text-accent" /> Clinical Queue
+  </h3>
+
+  <div className="flex gap-3">
+    <button 
+      onClick={() => navigate("/doctor/appointments")} 
+      className="text-xs font-bold text-accent hover:underline"
+    >
+      View Full Schedule
+    </button>
+
+    <button 
+      onClick={() => navigate("/doctor/availability")} 
+      className="text-xs font-bold text-accent hover:underline"
+    >
+      Manage Availability
+    </button>
+  </div>
+</div>
           
           <div className="space-y-4">
             {appointments.length > 0 ? appointments.slice(0, 5).map((apt, i) => (
